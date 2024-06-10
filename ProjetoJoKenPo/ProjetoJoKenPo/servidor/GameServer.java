@@ -13,12 +13,14 @@ public class GameServer {
     public static void main(String[] args) {
         System.out.println("Servidor de Jogo iniciado...");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
-                // Aceita novas conexões de clientes
+            while (true) {// bloco de loop infinito para vvvv
+                                                       // Aceitar novas conexões de clientes
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Nova conexão: " + clientSocket);
+
+                //criação de uma thread
                 ControladorClienteEmJogo clientThread = new ControladorClienteEmJogo(clientSocket);
-                clients.add(clientThread);
+                clients.add(clientThread);//adiciona a thread ao objeto da lista
                 new Thread(clientThread).start();
 
                 // Inicia uma nova partida quando há dois clientes conectados
@@ -38,15 +40,15 @@ public class GameServer {
             return;
         }
 
-        ControladorClienteEmJogo cliente1 = clientes.get(0);
-        ControladorClienteEmJogo cliente2 = clientes.get(1);
+        ControladorClienteEmJogo cliente1 = clientes.get(0);//retorna o primeiro cliente da lista
+        ControladorClienteEmJogo cliente2 = clientes.get(1);//retorna o segundo
 
         System.out.println("Partida iniciada."); // Depuração
 
         while (true) {
-            synchronized (cliente1) {
+            synchronized (cliente1) {         //faz um bloqueio nos objetos para fazer a sincronização das escolhas dos clietnes que estara no laço a seguir
                 synchronized (cliente2) {
-                    // Espera até que ambos os clientes façam suas escolhas
+                    //  verifica se as escolhas dos clientes (cliente1 e cliente2) ainda não foram feitas (assumindo que 0 indica que a escolha ainda não foi feita).
                     while (cliente1.getEscolhaCliente() == 0 || cliente2.getEscolhaCliente() == 0) {
                         try {
                             if (cliente1.getEscolhaCliente() == 0) {
@@ -75,6 +77,9 @@ public class GameServer {
                     cliente2.setEscolhaCliente(0);
                 }
             }
+           
         }
+        
     }
+    
 }

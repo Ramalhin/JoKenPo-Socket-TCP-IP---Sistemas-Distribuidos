@@ -23,7 +23,7 @@ public class SalaJogo implements Runnable {
         ControladorClienteEmJogo cliente1 = clientes.get(0);
         ControladorClienteEmJogo cliente2 = clientes.get(1);
 
-        System.out.println("Partida iniciada."); // Depuração
+        System.out.println("Partida iniciada."); // Depuração, caso haja os dois clientes aparece essa mensagem 
 
         // Simula a escolha dos jogadores e envia o resultado de volta aos clientes
         cliente1.enviarResultado(cliente1.getEscolhaCliente(), cliente2.getEscolhaCliente());

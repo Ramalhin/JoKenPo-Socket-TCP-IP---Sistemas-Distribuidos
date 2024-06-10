@@ -21,9 +21,9 @@ public class JogoDoCliente {
             System.out.println("Digite a porta do servidor:");
             int serverPort = Integer.parseInt(inputUsuario.readLine());
 
-            try (Socket socket = new Socket(serverIp, serverPort);
-                 PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
-                 BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+            try (Socket socket = new Socket(serverIp, serverPort);//socket criado para estabelecer a conexão com o servidor usando o endereço IP e a porta dados pelo usuário.
+                 PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);//criado para enviar mensagens para o servidor através do socket.
+                 BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {//criado para receber mensagens do servidor através do socket.
 
                 // Solicita o modo de jogo ao usuário
                 System.out.println("1. Jogador vs Jogador");

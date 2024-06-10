@@ -21,8 +21,8 @@ public class ControladorClienteEmJogo implements Runnable {
     public void run() {
         try {
             // Inicializa a entrada e saída do cliente
-            entrada = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            entrada = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //criado para ler a entrada de dados enviada pelo cliente
+            out = new PrintWriter(clientSocket.getOutputStream(), true);// criado para enviar os dados de volta ao cliente
 
             // Recebe a escolha de modo de jogo do cliente (1 para PvP, 2 para PvCPU)
             String modoJogo = entrada.readLine();
@@ -46,13 +46,13 @@ public class ControladorClienteEmJogo implements Runnable {
                     enviarResultado(escolhaCliente, escolhaCPU); // Envia o resultado ao cliente
                 } else {
                     // Se contra outro jogador, notifica o oponente
-                    ControladorClienteEmJogo oponente = getOponente();
-                    if (oponente != null) {
-                        synchronized (oponente) {
-                            oponente.notify();
+                    ControladorClienteEmJogo oponente = getOponente();//pega a escolha do oponente
+                    if (oponente != null) {//verifica se ha oponente para jogar
+                        synchronized (oponente) {//garante que apenas um dos clietes sera o objeto oponente
+                            oponente.notify();//notifica qualquer thread que esteja aguardando neste objeto, que uma mudança ocorreu e que elas podem continuar a execução.
                         }
 
-                        // Espera pela escolha do oponente
+                        // cliente aguarda escolha do oponente
                         synchronized (this) {
                             wait();
                         }
